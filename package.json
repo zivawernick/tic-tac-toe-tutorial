@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^4.0.0"
+  },
+  "main": "/index.js",
+  "devDependencies": {},
+  "keywords": [],
+  "name": "react-tutorial-2023",
+  "description": null,
+  "version": "0.0.2",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

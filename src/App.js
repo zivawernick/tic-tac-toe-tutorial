@@ -9,18 +9,7 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-
-/*Before "Completing the Game"
-Each Square component maintains a part of the game’s state. To check for a winner in a tic-tac-toe game, the Board would need to somehow know the state of each of the 9 Square components.
-At first, you might guess that the Board needs to “ask” each Square for that Square’s state. 
-- this approach is technically possible in React
-discouraged it because the code becomes difficult to understand, susceptible to bugs, and hard to refactor. 
-Instead, the best approach is to store the game’s state in the parent Board component instead of in each Square. 
-The Board component can tell each Square what to display by passing a prop, like you did when you passed a number to each Square.
-*/
 function Board({ xIsNext, squares, onPlay }) { //board component fully controlled by the props it receives
-  //moved to Game function const [xIsNext, setXIsNext] = useState(true);
-  //moved to Game function const [squares, setSquares] = useState(Array(9).fill(null));
 
   /*
   The handleClick function creates a copy of the squares array (nextSquares) with the JavaScript slice() Array method. Then, handleClick updates the nextSquares array to add X to the first ([0] index) square.
@@ -39,8 +28,6 @@ function Board({ xIsNext, squares, onPlay }) { //board component fully controlle
       } else {
           nextSquares[i] = "O";
       }
-      //setSquares(nextSquares);
-      //setXIsNext(!xIsNext);
        onPlay(nextSquares);
   }
 
@@ -74,9 +61,9 @@ function Board({ xIsNext, squares, onPlay }) { //board component fully controlle
   );
 }
 export default function Game() {
-    const [xIsNext, setXIsNext] = useState(true);
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
+    const xIsNext = currentMove % 2 === 0;
     //modify to render currently selected move
     const currentSquares = history[currentMove];
     
@@ -85,11 +72,10 @@ export default function Game() {
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
         //...history creates a new array that contains all the items in history
-        setXIsNext(!xIsNext);
+
     }
     function jumpTo(nextMove) {
         setCurrentMove(nextMove);
-        setXIsNext(nextMove % 2 == 0);
     }
     const moves = history.map((square, move) => {
         let description;

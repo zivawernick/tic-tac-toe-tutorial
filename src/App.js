@@ -18,9 +18,9 @@ discouraged it because the code becomes difficult to understand, susceptible to 
 Instead, the best approach is to store the game’s state in the parent Board component instead of in each Square. 
 The Board component can tell each Square what to display by passing a prop, like you did when you passed a number to each Square.
 */
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+function Board({ xIsNext, squares, onPlay }) { //board component fully controlled by the props it receives
+  //moved to Game function const [xIsNext, setXIsNext] = useState(true);
+  //moved to Game function const [squares, setSquares] = useState(Array(9).fill(null));
 
   /*
   The handleClick function creates a copy of the squares array (nextSquares) with the JavaScript slice() Array method. Then, handleClick updates the nextSquares array to add X to the first ([0] index) square.
@@ -32,22 +32,24 @@ export default function Board() {
         if (squares[i]){
             return;
         }
-      const nextSquares = squares.slice();
+        const nextSquares = squares.slice();
+      //slice allows you to store past versions of quares
       if (xIsNext) {
           nextSquares[i] = "X";
       } else {
           nextSquares[i] = "O";
       }
-      setSquares(nextSquares);
-      setXIsNext(!xIsNext);
+      //setSquares(nextSquares);
+      //setXIsNext(!xIsNext);
+       onPlay(nextSquares);
   }
 
    const winner = calculateWinner(squares);
    let stautus;
    if (winner) {
-       status = "Winner: " + winner;
+       status = 'Winner: ' + winner;
    } else {
-       status = "Next player: " + (xIsNext ? "X" : "O");
+       status = 'Next player: ' + (xIsNext ? "X" : "O");
    }
 
   return (
@@ -70,6 +72,27 @@ export default function Board() {
       </div>
     </>
   );
+}
+export default function Game() {
+    const [xIsNext, setXIsNext] = useState(true);
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const currentSquares = history[history.length - 1];
+
+    function handlePlay(nextSquares) {
+        setHistory([...history, nextSquares]);
+        //...history creates a new array that contains all the items in history
+        setXIsNext(!xIsNext);
+    }
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+            </div>
+            <div className="game-info">
+                <ol>{/*todo*/}</ol>
+            </div>
+        </div>
+    );
 }
 
 //helper function to calculate win

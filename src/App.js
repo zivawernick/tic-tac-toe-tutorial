@@ -81,15 +81,15 @@ export default function Game() {
     const currentSquares = history[currentMove];
     
     function handlePlay(nextSquares) {
-        const nextHistory = [...history.slice(o, currentMove + 1), nextSquares]
-        setHistory([...history, nextSquares]);
+        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+        setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
         //...history creates a new array that contains all the items in history
         setXIsNext(!xIsNext);
     }
     function jumpTo(nextMove) {
         setCurrentMove(nextMove);
-        sexXIsNext(nextMove % 2 == 0);
+        setXIsNext(nextMove % 2 == 0);
     }
     const moves = history.map((square, move) => {
         let description;
